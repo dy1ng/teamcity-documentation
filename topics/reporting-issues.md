@@ -280,10 +280,12 @@ In case the [server-side checkout](vcs-checkout-mode.md#server-checkout) is used
 * trigger the build.
 the build log and the agent log will contain the line "Patch is saved to file $\{file.name\}"Get the file and supply it with the problem description.
 
-## VCS trigger debug logging
+## Build triggers debug logging
 {product="tc"}
 
-To enable debug logging in a VCS trigger in a specific build configuration:
+To collect all build triggers debug logs in TeamCity 2021.1 and above, switch the logging preset on the __Administration | Diagnostics page__ to `debug-triggers`, reproduce the problem and then collect all the `teamcity-triggers.log` files.
+
+In TeamCity versions before 2021.1 it is only possible to enable debug logging for a VCS trigger defined in a specific build configuration:
 
 1. Take a default logging preset file `<[TeamCity Home](teamcity-home-directory.md)>/conf/teamcity-server-log4j.xml` and save it with some other name under the `<[TeamCity Data Directory](teamcity-data-directory.md)>/config/_logging/` directory.
 2. Modify the resulting file as follows:
@@ -331,7 +333,11 @@ The changes that are sent from the IDE to the server on a [remote run](remote-ru
 
 ## Logging in IntelliJ IDEA/Platform-based IDEs
 
-To enable debug logging for the [IntelliJ Platform-based IDE plugin](intellij-platform-plugin.md), include the following fragment into the Log4j configuration of the `<IDE home>/bin/log.xml` file:
+To enable debug logging for the [IntelliJ Platform-based IDE plugin](intellij-platform-plugin.md), include the following fragment into the Log4j configuration of the `<IDE home>/bin/log.xml` file.
+
+> Since platform version 2019.3, this file is no longer loaded by default. Consider adding the configuration via __Help | Diagnostic Tools | Debug Log Settings__ instead. Alternatively, you can copy this file to some location and specify a path to it by adding `idea.log.config.file = /path/to/log.xml` in __Help | Edit Custom Properties__.
+>
+{type="note"}
 
 ```Shell
 

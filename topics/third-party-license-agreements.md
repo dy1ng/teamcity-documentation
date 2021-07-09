@@ -22,7 +22,7 @@ License
 
 <td>
 
-[Acegi Security](http://www.acegisecurity.org/)
+[Acegi Security](https://spring.io/projects/spring-security)
 
 
 </td>
@@ -32,7 +32,23 @@ License
 [Apache](http://www.apache.org/licenses/LICENSE-2.0)
 
 
-</td></tr><tr>
+</td></tr>
+
+<tr>
+
+<td>
+
+[ANTLR](https://www.antlr.org/)
+
+</td>
+
+<td>
+
+[BSD 3-clause](https://github.com/antlr/antlr4/blob/master/LICENSE.txt)
+
+</td></tr>
+
+<tr>
 
 <td>
 
@@ -385,6 +401,18 @@ License
 
 <td>
 
+[Elasticsearch](https://www.elastic.co/)
+
+</td>
+
+<td>
+
+[Apache](http://www.apache.org/licenses/LICENSE-2.0)
+
+</td></tr><tr>
+
+<td>
+
 [Expat XML Parser Toolkit](http://www.jclark.com.md/expat.html)
 
 
@@ -478,7 +506,42 @@ License
 [Apache](http://www.apache.org/licenses/LICENSE-2.0)
 
 
-</td></tr><tr>
+</td></tr>
+
+
+<tr>
+
+<td>
+
+[GraphQL Java](https://www.graphql-java.com/)
+
+
+</td>
+
+<td>
+
+[MIT](https://github.com/graphql-java/graphql-java/blob/master/LICENSE.md)
+
+
+</td></tr>
+
+<tr>
+
+<td>
+
+[GraphQL Java Tools](https://github.com/graphql-java-kickstart/graphql-java-tools)
+
+
+</td>
+
+<td>
+
+[MIT](https://github.com/graphql-java-kickstart/graphql-java-tools/blob/master/LICENSE)
+
+
+</td></tr>
+
+<tr>
 
 <td>
 
@@ -578,21 +641,21 @@ License
 
 <td>
 
-[JAXB reference implementation](https://jaxb.dev.java.net/)
+[JAXB reference implementation](https://javaee.github.io/jaxb-v2/)
 
 
 </td>
 
 <td>
 
-[CDDL v1.0](https://glassfish.dev.java.net/public/CDDL+GPL.html)
+[CDDL v1.0](https://javaee.github.io/jaxb-v2/LICENSE)
 
 
 </td></tr><tr>
 
 <td>
 
-[Java Mail](http://www.oracle.com/technetwork/java/javamail/)
+[Java Mail](https://javaee.github.io/javamail/)
 
 
 </td>
@@ -1004,14 +1067,14 @@ License
 
 <td>
 
-[NanoContainer](http://nanocontainer.codehaus.org/)
+[NanoContainer](https://github.com/picocontainer/NanoContainer)
 
 
 </td>
 
 <td>
 
-[NanoContainer](http://nanocontainer.codehaus.org/License)
+[NanoContainer](https://github.com/picocontainer/NanoContainer/blob/master/LICENSE.txt)
 
 
 </td></tr><tr>
@@ -1248,7 +1311,26 @@ License
 [MIT](http://raphaeljs.com/license.html)
 
 
-</td></tr><tr>
+</td></tr>
+
+
+<tr>
+
+<td>
+
+[Reactive Streams](https://www.reactive-streams.org/)
+
+
+</td>
+
+<td>
+
+[CC0](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
+
+
+</td></tr>
+
+<tr>
 
 <td>
 
@@ -1645,6 +1727,7 @@ License
 This product includes software developed by Spring Security Project ([http://acegisecurity.org](http://acegisecurity.org/)). (Acegi Security)
 
 This product includes software developed by The Apache Software Foundation ([http://www.apache.org/](http://www.apache.org/)). (Apache Ant, Ivy, Jakarta, Log4j, Maven2, Tomcat, and Xerces2 Java Parser)
+
 This product includes software developed by the DOM Project ([http://www.jdom.org/](http://www.jdom.org/)). (JDom)
 
 This product includes software developed by the Visigoth Software Society ([http://www.visigoths.org/](http://www.visigoths.org/)). (FreeMarker)
@@ -1683,7 +1766,9 @@ Paul Johnson's MD5 Copyright © 1998 \- 2002, Paul Johnston &amp; Contributors. 
 
 Portions of PostgreSQL Copyright © 1996\-2005, The PostgreSQL Global Development Group or Portions Copyright © 1994, The Regents of the University of California.
 
-Raphaël © 2008 Dmitry BaranovskiyRome is Copyright © 2004 Sun Microsystems, Inc.
+Raphaël © 2008 Dmitry Baranovskiy
+
+Rome is Copyright © 2004 Sun Microsystems, Inc.
 
 [Script.aculo.us](http://Script.aculo.us) Copyright © 2005 Thomas Fuchs ([http://script.aculo.us](http://script.aculo.us/), [http://mir.aculo.us](http://mir.aculo.us/)).
 

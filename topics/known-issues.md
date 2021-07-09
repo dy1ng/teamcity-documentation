@@ -152,9 +152,7 @@ There might be problems with the Windows Indexing Service, so disable various in
 
 Do not install software with background indexing like WinCVS, TortoiseCVS, TortoiseSVN, and other Tortoise\* products. This applies to server and also to agents if you use agent-side checkout.
 
-Skype software is known to:
-*   use port 80 on the system so you might not be able to utilize a TeamCity server on the default port 80.
-*   corrupt layout of pages displayed in Internet Explorer. Internet Explorer Skype plugin is to blame. ([TW-13052](http://youtrack.jetbrains.net/issue/TW-13052)).
+Skype software is known to corrupt layout of pages displayed in Internet Explorer. ([TW-13052](http://youtrack.jetbrains.net/issue/TW-13052)).
 
 ## Subversion issues
 
@@ -406,6 +404,7 @@ If you try to run dotCover on an agent with the Nano Server OS, the build will f
 dotCover does not support collection of coverage statistics for the `dotnet msbuild /t:vstest` command — use `dotnet test` instead.
 
 ### Code coverage configuration using Test Settings is deprecated
+{product="tc"}
 
 Code coverage configuration using Test Settings is deprecated in dotCover. [Read more](https://docs.microsoft.com/en-us/previous-versions/dd504821(v=vs.140)) in Microsoft documentation.
 

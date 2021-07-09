@@ -46,6 +46,7 @@ Reportedly works without known issues on:
 Note that Windows XP/XP x64 are not supported.
 
 ### Build Agents
+{product="tc"}
 
 The TeamCity Agent is a standalone Java application.
 
@@ -58,6 +59,129 @@ Supported Java versions are OpenJDK and Oracle Java 8 - 11. We recommend using t
 __Since TeamCity 2019.2__, 64-bit [Amazon Corretto](https://aws.amazon.com/corretto/) 8 is included in the Windows `.exe` TeamCity distribution (previously, 32-bit Oracle Java and then AdoptOpenJDK were bundled with the TeamCity Windows distribution). Users of the bundled version of JRE are automatically switched to 64-bit Amazon Corretto on upgrading TeamCity to 2019.2 or later.
 
 </note>
+
+The TeamCity agent is tested under the following operating systems:
+* Linux
+* macOS
+* Windows 7/7x64
+* Windows 10
+* Windows Server 2003/2008, 2012, 2016, 2019
+* Server Core installation of Windows Server 2016
+
+Reportedly works on:
+* Windows XP/XP x64
+* Windows 2000 (interactive mode only)
+* Solaris
+* FreeBSD
+* IBM z/OS
+* HP-UX
+
+### Build Agents
+{product="tcc"}
+
+The TeamCity Agent is a standalone Java application. TeamCity Cloud supports two types of agents:
+* Hosted by JetBrains
+* Hosted by a customer
+
+You can combine agents of both types in your installation. Read more information on licensing these agents in [Subscription and Licensing](teamcity-cloud-subscription-and-licensing.md).
+
+#### JetBrains-Hosted Agents
+
+These agents are automatically maintained by JetBrains and don't require to be installed or configured by a customer. There are multiple types of these agents:
+
+<table>
+
+<tr>
+
+<td>
+
+Instance Type
+
+</td>
+
+<td>
+
+Hardware
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Linux (small)
+
+</td>
+
+<td>
+
+* CPU: 2 vCPU (Intel Xeon (Cascade Lake))
+* RAM: 4 Gb ram
+* SSD: 20 Gb
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Linux (medium)
+
+</td>
+
+<td>
+
+* CPU: 4 vCPU (Intel Xeon (Cascade Lake))
+* RAM: 8 Gb ram
+* SSD: 20 Gb
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Windows (medium)
+
+</td>
+
+<td>
+
+* CPU: 4 vCPU (Intel Xeon (Cascade Lake))
+* RAM: 8 Gb ram
+* SSD: 20 Gb
+
+</td>
+
+</tr>
+
+</table>
+
+Each JetBrains-hosted agent comes with a set of preinstalled software.
+
+Software preinstalled on Windows agents:
+
+<include src="preinstalled-software-on-teamcity-cloud-windows-agents.md"
+include-id="windows-jb-agents"/>
+
+Software preinstalled on Ubuntu agents:
+
+<include src="preinstalled-software-on-teamcity-cloud-ubuntu-agents.md"
+include-id="ubuntu-jb-agents"/>
+
+#### Self-Hosted Agents
+
+You can install a build agent locally on your machine, similarly to how you would do it in [TeamCity On-Premises](https://www.jetbrains.com/help/teamcity/setting-up-and-running-additional-build-agents.html), and connect it to the TeamCity Cloud instance. Note that you need to acquire a [concurrent build slot](teamcity-cloud-subscription-and-licensing.md#Using+Build+Credits) for each self-hosted agent.
+
+Build agents require a Java SE JRE installation to run. See [notes](setting-up-and-running-additional-build-agents.md#Configuring+Java) on how to configure Java on agents.
+
+Supported Java versions are OpenJDK and Oracle Java 8 - 11. We recommend using the latest available version of JDK. Support for running agents under Java 1.6 and 1.7 is deprecated.
 
 The TeamCity agent is tested under the following operating systems:
 * Linux
@@ -94,7 +218,7 @@ TeamCity supports a wide range of build tools, enabling both Java and .NET softw
 
 ### Supported Java build runners
 
-* [Ant](ant.md) 1.6-1.10. TeamCity comes bundled with Ant 1.9.14.
+* [Ant](ant.md) 1.6-1.10. TeamCity comes bundled with Ant 1.10.10 (requires Java 8).
 * [Maven](maven.md) versions 2.0.x, 2.x, 3.x (known at the moment of the TeamCity release). Java 1.5 and higher is supported. TeamCity comes bundled with Maven 2.2.1, 3.0.5, 3.1.1, 3.2.5, 3.3.9, 3.5.4, and 3.6.3.
 * [IntelliJ IDEA Project](intellij-idea-project.md) runner (requires Java 8)
 * [Gradle](gradle.md) (requires Gradle 0.9-rc-1 or higher)
@@ -121,6 +245,9 @@ Other runners:
 
 * [Python](python.md), requires installing Python version 2.0 or later on agents
 * [Kotlin Script](kotlin-script.md)
+{product="tc"}
+* [Node.js](nodejs.md)
+{product="tc"}
 * [Rake](rake.md)
 * [Command Line](command-line.md) for running any build process using a shell script
 * [PowerShell](powershell.md), versions 1.0 - 5.0
@@ -137,7 +264,7 @@ Other runners:
 ## Version Control Systems
 
 * [Git](git.md) (for automatic `git gc` support requires Git client installed on the server in order to perform maintenance of Git clones, latest version is recommended)
-* [Subversion](subversion.md) (server versions 1.4-1.9 and higher as long as the protocol is backward-compatible).
+* [Subversion](subversion.md) (server versions 1.4-1.9 and later, as long as the protocol is backward-compatible).
 * [Perforce](perforce.md) (requires a Perforce client installed on the TeamCity server). Check [compatibility issues](perforce-vcs-compatibility.md).
 * [Team Foundation Server](team-foundation-server.md) 2005, 2008, 2010, 2012, 2013, 2015, 2017 are supported. 
 * [Mercurial](mercurial.md) (requires the Mercurial "hg" client v1.5.2+ installed on the server)
@@ -158,7 +285,7 @@ For support for other VCS please check [external plugins](https://plugins.jetbra
 
 The requirements noted are for agent environment and are additional to those for the server listed above.
 
-* Git (git client version 1.6.4+ must be installed on the agent, latest version is recommended)
+* Git (git client version 1.6.4+ must be installed on the agent, the latest version is recommended)
 * Subversion (working copies in the Subversion 1.4-1.8 format are supported)
 * Perforce (a Perforce client must be installed on the TeamCity agent machine)
 * Team Foundation Server 2005-2015, 2017 are supported. 
@@ -201,6 +328,7 @@ The requirements noted are for agent environment and are additional to those for
 
 
 ## Cloud Agents Integration
+{product="tc"}
 
 * [Amazon EC2](setting-up-teamcity-for-amazon-ec2.md)
 * [VMWare vSphere](setting-up-teamcity-for-vmware-vsphere-and-vcenter.md)
@@ -280,7 +408,6 @@ Supported VCS
 <td>
 
 [IntelliJ IDEA Platform](intellij-platform-plugin.md) \*)
-
 
 </td>
 
@@ -378,9 +505,12 @@ JetBrains dotCover coverage. Requires [JetBrains dotCover](http://www.jetbrains.
 See more at [Setting up an External Database](setting-up-an-external-database.md)
 
 * HSQLDB 2.3.2   
-The internal database suits __evaluation purposes only__; we strongly recommend using an external database in a production environment.
-* MySQL 5.0.33+, 5.1.49+, 5.5+, 5.6+, 5.7+, 8+ (Note that due to bugs in MySQL, versions 5.0.20, 5.0.22 and 5.1 up to 5.1.48 are not compatible with TeamCity)
-* Microsoft SQL Server 2005 or later (including Express editions), SQL Azure; SSL connections support might require [these updates](http://blogs.msdn.com/b/jdbcteam/archive/2012/01/19/patch-available-for-sql-server-and-java-6-update-30.aspx).
-* PostgreSQL 8.2 and newer
-* Oracle 10g and newer (TeamCity is tested with [driver](http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html) version 12.1.0.1)
+The internal HSQLDB database suits __evaluation purposes only__; we strongly recommend using an external database in a production environment.
+* MySQL 5.7.34 or later
+* Microsoft SQL Server 2012 or later (including Express editions), SQL Azure.
+* PostgreSQL 9.6 or later.
+* Oracle 10g and newer (TeamCity is tested with [driver](http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html) version 12.1.0.1).
 
+## Game Engines
+
+* Unity, by the means of the [Unity Support](https://plugins.jetbrains.com/plugin/11453-unity-support) plugin (bundled in TeamCity Cloud and can be installed on-demand in TeamCity On-Premises)

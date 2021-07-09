@@ -12,6 +12,7 @@ The _Inspections (ReSharper)_ build runner allows you to use the benefits of the
 ReSharper command line tools 2018.2 or newer require .NET Framework 4.6.1 or newer.
 
 If you want to run ReSharper inspections using a specific ReSharper version (for example, to ensure it matches the version you have installed in Visual Studio), you can install another version of the tools and change the default version to be used on the __[Administration | Tools](installing-agent-tools.md)__ page. This page contains reference information about the _Inspections (.NET)_ build runner's fields.
+{product="tc"}
 
 You can also refer to the [ReSharper documentation](https://www.jetbrains.com/help/resharper/Detect_code_issues_in_a_build_using_ReSharper_and_TeamCity.html) for more details.
 
@@ -19,6 +20,8 @@ You can also refer to the [ReSharper documentation](https://www.jetbrains.com/he
 
 To run inspections for your project, you must have a ReSharper inspection profile for .NET projects.
 </note>
+
+Refer to [Configuring Build Steps](configuring-build-steps.md) for a description of common build steps' settings. Refer to [Docker Wrapper](docker-wrapper.md) to learn how you can run this step inside a Docker container.
 
 ## Sources to Analyze
 
@@ -135,7 +138,11 @@ R# CLT Home Directory
 
 <td>
 
-Select the ReSharper Command Line Tools version. You can check the installed JetBrains ReSharper Command Line Tools versions on the __[Administration | Tools](installing-agent-tools.md)__ page. If you want to run ReSharper duplicates using a specific ReSharper version (for example, to ensure it matches the version you have installed in Visual Studio), you can use this page to install another version of the tools and change the default version to be used.
+Select the ReSharper Command Line Tools version.
+
+You can check the installed JetBrains ReSharper Command Line Tools versions on the __[Administration | Tools](installing-agent-tools.md)__ page. If you want to run ReSharper duplicates using a specific ReSharper version (for example, to ensure it matches the version you have installed in Visual Studio), you can use this page to install another version of the tools and change the default version to be used.
+{product="tc"}
+
 
 </td></tr><tr>
 
@@ -147,7 +154,7 @@ InspectCode Platform
 
 <td id="ReSharperInspectionsPlatform" auxiliary-id="ReSharperInspectionsPlatform">
 
-Select the platform bitness of the InspectCode tool. To find code issues in C++ projects, use the x86 platform. 
+Select the platform bitness of the InspectCode tool. To find code issues in C++ projects, use the x86 platform. The cross-platform inspections are also supported in ReSharper 2020.2.1 or later.
 
 </td></tr></table>
 
@@ -315,6 +322,20 @@ ReSharper Version
 <td>
 
 2020.2.4
+
+</td></tr>
+
+<tr>
+
+<td>
+
+2021.1
+
+</td>
+
+<td>
+
+2021.1.2
 
 </td></tr>
 

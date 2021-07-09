@@ -9,6 +9,8 @@ The runner supports all Gradle build configurations, including `build.gradle` an
 
 >To use the TeamCity server as an external dependency repository for Gradle builds, try the external [TeamCity-Gradle plugin](https://github.com/jk1/TeamCity-dependencies-gradle-plugin).
 
+<anchor name="Gradle-GradleParameters"/>
+
 ## Gradle Parameters
 
 <table><tr>
@@ -102,6 +104,7 @@ If enabled, TeamCity will look for Gradle Wrapper scripts in the checkout direct
 </td></tr></table>
 
 <anchor name="LaunchingParameters"/>
+<anchor name="Gradle-LaunchingParameters"/>
 
 ### Run Parameters
 [//]: # (AltHead: LaunchingParameters cbr) 
@@ -129,6 +132,10 @@ Debug
 <td>
 
 Selecting the _Log debug messages_ checkbox is equivalent to adding the `-d` Gradle command-line parameter.
+
+>Running Gradle with the `DEBUG` log level can potentially expose sensitive information in the build log (learn more in the [Gradle documentation](https://docs.gradle.org/current/userguide/logging.html#sec:debug_security)). Before enabling this mode, make sure that the log can be viewed only by trusted users.
+> 
+{type="warning"}
 
 </td></tr><tr>
 

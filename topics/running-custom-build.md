@@ -1,5 +1,5 @@
-[//]: # (title: Triggering a Custom Build)
-[//]: # (auxiliary-id: Triggering a Custom Build)
+[//]: # (title: Running Custom Build)
+[//]: # (auxiliary-id: Running Custom Build;Triggering a Custom Build)
 
 A build configuration usually has [build triggers](configuring-build-triggers.md) configured which automatically start a new build each time the conditions are met, like scheduled time or detection of VCS changes.
 
@@ -10,6 +10,7 @@ There are several ways of launching a custom build in TeamCity:
 * To run a custom build with specific changes, open the build results page, go to the [Changes](working-with-build-results.md#Changes) tab, expand the required change, click the __Run build with this change__, and proceed with the [options](#General+Options) in the __Run Custom Build__ dialog.
 * Use [HTTP request](accessing-server-by-http.md) or [REST API request](https://www.jetbrains.com/help/teamcity/rest/manage-builds.html#Triggering+Build) to TeamCity to trigger a build.
 * Promote a build - see the section [below](#Promoting+Build).
+* [Build triggers](configuring-build-triggers.md) can launch builds with custom parameters.
 
 ## Run Custom Build dialog
 
@@ -19,6 +20,7 @@ Select an agent you want to run the build on from the drop-down menu. Note that 
 * __fastest idle agent__: _default option_; if selected, TeamCity will automatically choose an agent to run a build on based on calculated estimates.
 * __the fastest agent in &lt;a certain&gt; pool__: if selected, TeamCity will run a build on an agent from a specified pool
 * if [cloud integration](teamcity-integration-with-cloud-solutions.md) is configured, you can select to run a build on an agent from a __certain cloud image__. If no available cloud agents of this type exist, TeamCity will also attempt to start a new one.
+{product="tc"}
 * __run a build on &lt;a specified&gt; agent__
 * __All enabled compatible agents__: Use this option to run a build simultaneously on all agents that are enabled and compatible with the build configuration. This option may be useful in the following cases:
   * run a build for agent maintenance purposes (for example, you can create a configuration to check whether agents function properly after an environment upgrade/update).
@@ -39,6 +41,8 @@ To increase the number of builds displayed in the drop-down menu to 50, use the 
 {product="tc"}
 
 Note that if you re-run a dependent build, TeamCity will try to rebuild all dependency builds, including failed ones, by default.
+
+By default, dependency builds in the list are grouped by their branches sorted alphabetically. Builds of the same branch are sorted relatively to each other by date. In some cases, you might need to discard branch-based sorting and sort all dependency builds only by their date, to display the newest builds at the top. To do this, click __Sort dependencies by date__. To return to the default sorting, click __Reset all__.
 
 ### Changes
 

@@ -1,225 +1,297 @@
-[//]: # (title: What's New in TeamCity 2020.2)
-[//]: # (auxiliary-id: What's New in TeamCity 2020.2)
+[//]: # (title: What's New in TeamCity 2021.1)
+[//]: # (auxiliary-id: What's New in TeamCity 2021.1; What's New in TeamCity)
 
-## New header
+## Kotlin Script build runner
 
-TeamCity 2020.2 comes with a more modern header in both classic and experimental UI.
+[Kotlin](https://kotlinlang.org/) by JetBrains is a widely adopted and concise programming language. It works on all platforms supported by TeamCity and is perfect for scripting build tasks. To meet the high demand for such a tool in TeamCity, we've designed a new [Kotlin Script](kotlin-script.md) build runner.
 
-<img src="header.png" alt="New header 2020.2"/>
+You can use it to automate recurring routines, such as custom checks, sending [service messages](service-messages.md), or downloading files via HTTP. If you use [Ant](ant.md) or [Command Line](command-line.md) build steps and are eager to try Kotlin instead, the new runner gives a great opportunity to do this. You can rewrite tasks in Kotlin and just switch the existing build steps to the new runner.
 
-## Python support out of the box
+To configure a Kotlin Script build step, enter a script code or provide a path to it. By default, TeamCity will run it using Kotlin 1.5.0, but you can install any other compiler version in __Administration | Tools__.
 
-TeamCity 2020.2 comes with a new bundled [Python](python.md) runner. It automatically detects Python on build agents and allows running Python scripts on all supported platforms.
+<img src="kotlin-script-step.png" width="706" alt="Kotlin Script build step"/>
 
-Comparing to the now obsolete [Python Runner](https://plugins.jetbrains.com/plugin/9042-python-runner) plugin, the new runner tightly integrates with TeamCity and introduces extra possibilities, such as:
-* Automatic test reports (via unittest and pytest) and inspections (via flake8 and pylint)
-* Using virtual environments
-* Launching a build step inside a Docker container
+[Read this article](kotlin-script.md) for more details.
 
-<img src="python.png" alt="Bundled Python build runner"/>
+## Node.js build runner
 
-If you were using the old plugin to run your Python projects, we highly recommend switching the respective build steps to the bundled runner. As the new runner offers extra settings, these steps have to be reconfigured manually.
+To improve your experience with building JavaScript projects in TeamCity, we introduce a dedicated build runner for [Node.js](nodejs.md). It allows running [`npm`](https://www.npmjs.com/), [`yarn`](https://yarnpkg.com/), and [`node`](https://github.com/nodejs/node) commands inside your builds and reporting detailed test results.
 
-Read [how to configure the new runner](python.md).
+You can add the Node.js steps manually or let TeamCity scan your project's repository. When scanning, TeamCity will parse the `package.json` file to see what frameworks are used in the project. Based on this information, it will propose adding the respective build steps: for example, to install necessary dependencies or to run tests. You can later adjust these steps as you like.
 
-## Agentless build steps
+If there are [ESlint](https://eslint.org/), [Jest](https://jestjs.io/), or [Mocha](https://mochajs.org/) dependencies in your project, TeamCity will show the respective test results right in the build overview.
 
-Since this release, last steps of a build can finish without a build agent, in an external software.
+To configure a Node.js build step, just enter a script with necessary Shell commands:
 
-Normally, a running build occupies a build agent until all its steps finish. In some cases, a build needs to wait for a process executed by some external system, outside of the build agent. For example, when the last step is responsible for deploying via a third-party software, an agent would simply do nothing until this step finishes.
+<img src="nodejs-step.png" width="706" alt="Node.js build step"/>
 
-Now, a build can be detached from its current agent. This agent becomes available to other builds, while the build continues running in the "agentless" mode. 
+Currently, all Node.js steps are run inside a Docker container, which means [Docker](https://www.docker.com/) needs to be installed on build agents. TeamCity uses the `node:lts` version by default; but if there is an `.nvmrc` file inside your project, it will search for the image specification there.
 
-To detach an agent, a build should send the `##teamcity[buildDetachedFromAgent]` [service message](service-messages.md).     
-There are dedicated REST API endpoints which can be used to report the progress of the agentless build and end it once the external process finishes. You can read more about them [in the documentation](detaching-build-from-agent.md).
+[Read this article](nodejs.md) for more details.
 
-There is a limit for a number of agentless builds running simultaneously. It is equal to the maximum number of authorized agents in your installation. This way, if you have 10 agent licenses, you can run in parallel up to 10 agents _plus_ up to 10 agentless builds.  
-If the limit is exceeded, a build won't be able to detach from its agent until some of the running agentless builds finish.
+## Customize automatically triggered builds
 
-## Authentication with GitHub.com, GitHub Enterprise, GitLab.com, GitLab CE/EE, Bitbucket Cloud
+[Build triggers](configuring-build-triggers.md) now support custom parameters. This feature has been anticipated by our users, as it makes automatically triggered builds as versatile as builds started in the [custom run](running-custom-build.md) mode.
 
-Now, users can authenticate in TeamCity with their external accounts in:
-* [GitHub.com](http://github.com/) / [GitHub Enterprise](https://github.com/enterprise)
-* [GitLab.com](https://about.gitlab.com/) / [GitLab CE/EE](https://about.gitlab.com/install/ce-or-ee/)
-* [Bitbucket Cloud](https://bitbucket.org/product/)
+There are limitless combinations of how you can use this instrument to autorun different builds within the same configuration. Most importantly, the same script can now deploy triggered builds to different targets, depending on preconditions like a source branch or launch time.
 
-This integration requires creating a dedicated application on the VCS hosting provider's side and a _connection_ in TeamCity. You can find detailed instructions on how to configure a connection [here](integrating-teamcity-with-vcs-hosting-services.md).   
-To enable authentication with each of the listed providers, a system administrator needs to activate a respective [authentication module](authentication-modules.md). If any of these modules is enabled on your server, users will see its icon above the login form:
+In a build trigger's settings, you can find the new __Build Customization__ tab with the following options:
+* _General Settings_: choose to delete all files in the [checkout directory](build-checkout-directory.md) if you need to start every triggered build with clean sources.
+* _Build parameters_: customize the value of any [parameter](configuring-build-parameters.md) used in the current build configuration. Or, add a new parameter, and it will be available only in builds started by this trigger. You can even use it to override a parameter of a [dependency build configuration](snapshot-dependencies.md): use the `[reverse.dep.<dependencyBuildID>.<property>](predefined-build-parameters.md#Overriding+Dependencies+Properties)` syntax for this.
 
-<img src="oauth.png" alt="Authentication with VCS hosting provider"/>
+This feature gets even more effective if you combine it with our [build step execution conditions](build-step-execution-conditions.md). You just need to add a parameter-based condition to a step and then configure two triggers: one will run builds with this step (when the condition is satisfied) and one — without it. A popular use case is to run an extra clean-up step when a failed build is restarted with a [retry trigger](configuring-retry-build-trigger.md): this can help solve many build problems even without involving a user.
 
-To sign in as an external user, you need to click this icon and, after the redirect, approve the TeamCity application in your external account. If successful, you will be signed in back to TeamCity.   
-If a user with your external account's email is registered in TeamCity, you will be authenticated as this user. Otherwise, TeamCity will create a new user profile (unless this option is manually disabled).   
-To be automatically recognized by TeamCity, users can also connect their profiles to external accounts in __My Settings & Tools__.
+<img src="custom-trigger-params.png" width="460" alt="Customize triggered builds"/>
 
-Admins can map TeamCity users with external accounts and limit providers' groups/organizations/workspaces whose members can access the server.
+## Multinode setup improvements
 
-Learn [how to enable and manage authentication modules](configuring-authentication-settings.md).
+One of the top priorities of TeamCity is to provide a high-availability solution for your building processes. In this release, we bring multiple updates that make it easier to configure a performant and stable cluster setup.
 
-## Support for Bitbucket Cloud pull requests
+### Switch node from secondary to main in runtime
 
-TeamCity already supports monitoring pull requests in GitHub, GitLab, Azure DevOps, and Bitbucket Server. And now — in Bitbucket Cloud.
+Now, if the main node goes down for any reason, its main role and all the respective responsibilities can be promptly assigned to another server.
 
-<img src="bb-cloud-pr.png" alt="Bitbucket Cloud pull requests"/>
+By default, the new "_Main TeamCity node_" responsibility belongs to the current main server, but it gets vacant if this server becomes unavailable. You can then assign it to any secondary server in __Administration | Nodes Configuration__.
 
-When you send a pull request to a Bitbucket Cloud repo, TeamCity will detect it, run a new build, and then display the pull request results. For this to work, you need to configure the [Pull Requests](pull-requests.md) build feature and a [VCS trigger](configuring-vcs-triggers.md).   
-Note that this feature works a bit differently with Bitbucket Cloud than with other VCSs. Since Bitbucket Cloud does not create a dedicated branch per pull request, TeamCity runs builds on the source branches of pull requests and monitors only the source repository (forks are not supported).
+<img src="main-node-role.png" width="460" alt="Main node responsibility"/>
 
-See [more details](pull-requests.md#Bitbucket+Cloud+Pull+Requests).
+The assigned server becomes the main node and automatically receives all its other responsibilities (processing builds, managing agents, and so on). This new main node keeps all its running builds, and the agents reconnect to it automatically if a [proxy is configured in your setup](multinode-setup.md#Proxy+Configuration).
 
-## JetBrains Space support in Commit Status Publisher
+When the previously main server starts again, it becomes a secondary node, as the "_Main TeamCity node_" responsibility is already occupied by another server. If necessary, you can repeat the procedure above to switch roles between these servers.
 
-The [Commit Status Publisher](commit-status-publisher.md) build feature can integrate with [JetBrains Space](https://www.jetbrains.com/space/). With this feature, TeamCity builds can automatically publish their statuses to a JetBrains Space project in real-time.
+### External proxy as load balancer
 
-<img src="space-csp.png" alt="JetBrains Space support in Commit Status Publisher"/>
+In the previous versions of TeamCity, build agents had to send all the requests to the main node, and the main node was redirecting these requests to a suitable secondary node. If the main were to go down, the agent would not be able to communicate with its appointed secondary node. Starting with version 2021.1, TeamCity supports a new approach — using proxy as a balancer of requests between all clients (build agents and TeamCity users) and nodes.
 
-Read [how to configure this integration](commit-status-publisher.md#JetBrains+Space).
+This approach allows routing all agents to the proxy instead of the main server. This will make the server-agent communication less dependent on the main node and get your setup closer to 100% availability. Besides, since agents won't connect to the nodes directly, you can configure and maintain HTTPS settings in one place — on the proxy level.
 
-## Experimental UI updates
+See more details and the example proxy configuration in [this article](multinode-setup.md).
 
-Our [experimental UI](teamcity-experimental-ui.md) is a work in progress: we introduce the changes in the early stages of development so you can already benefit from the new features. In each release, we polish already existing experimental pages and reproduce all the important classic features in the new UI. Our roadmap strongly depends on our users' feedback.   
-In version 2020.2, we added the __Test History__ and __Build Queue__ pages, implemented the full-text search in the build log, and improved the __Dependencies__ tab of the build results.
+### Manage max number of builds on secondary node
 
-If any of the familiar features are missing, you can switch an experimental page to the classic UI with the ![mammoth.png](mammoth.png) button, or turn off the experimental UI on the server completely in __My Settings & Tools__.
+If a secondary node is assigned to processing builds, it is now possible to limit the number of parallel builds it can run. Previously, if the "_[Processing data produced by running builds](multinode-setup.md#Processing+Data+Produced+by+Builds+on+Secondary+Node)_" responsibility was enabled for a node, it would process all builds. Now, you can distribute the load between multiple nodes or even keep some builds assigned to the main node.
 
->__You can leave feedback about your experience with the experimental UI via [this survey](https://surveys.jetbrains.com/s3/feedback-form-for-teamcity?tcv=2020.2)!__
+To configure the limits, go to __Administration | Nodes Configuration__, find the required node in the list, and click __Edit__ next to its "_Processing data produced by running builds_" responsibility. In the _Limit builds_ dialog, enter a relative limit of builds allowed to run on this node. We suggest that you set the limits depending on the nodes' hardware capabilities.
 
-### Experimental Test History page
+<img src="node-build-limit.png" width="460" alt="Limit builds on node"/>
 
-The highly demanded __Test History__ page gets a fresh look in this release. Now, you can see the detailed test statistics without switching to the classic mode.
+If the maximum limit of allowed builds is reached on all secondary nodes, TeamCity will be starting new builds on the main node — until some secondary node finishes its build.
 
-<img src="exp-test-history.png" alt="Experimental Test History page"/>
+## New search mode based on Elastic
 
-### Full-text search in build log
+Alternatively to the local Lucene-based search, TeamCity now provides a search mode based on [Elasticsearch](https://www.elastic.co/elasticsearch/). Both modes allow searching builds by number, tag, and many other parameters. The main difference is in the search index location: it can be stored next to the TeamCity server or on your Elastic host.
 
-You can now search through a build log regardless of how much of it is already loaded in the UI.
+The new mode has two advantages: (1) it saves disk space on the TeamCity server machine and (2) it is better for the TeamCity performance. It is especially effective for multinode installations, as nodes spend fewer resources on maintaining a single remote index than on multiple local indexes.  
+For relatively small installations, you may continue using Lucene search, with no need to reconfigure anything.
 
-<img src="search-log.png" alt="Search in experimental build log"/>
+You can select the search mode on the Root project level in __Project Settings | Builds Search__. To connect to your Elastic host or cluster, enter its URL and credentials.
 
-## Updated Dependencies display
+After you save the new settings, TeamCity will spend some time reindexing builds. The exact duration depends on the size of your server. You can track or control the progress in the _Diagnostics_ table.
 
-We received lots of requests to show queued builds in the experimental UI representation of a build chain timeline. In this release, we've updated the build chain display to make it more informative:
-* The __Dependencies | Timeline__ view shows all dependencies of the current build, including queued ones.
-* The __Dependencies | Chain__ view displays a full build chain. You can see all builds that depend on the current one and promote the current build to them, as in the classic UI. If a build is [composite](composite-build-configuration.md), you can also group it right from this view.
+<img src="elastic-search.PNG" width="706" alt="Elastic-based search"/>
 
-<img src="exp-buildchain.png" alt="Experimental build chain"/>
+## Read-only project settings
 
-### Plugin support in Experimental UI
+[Versioned project settings](storing-project-settings-in-version-control.md) is one of the most popular features of TeamCity. We keep adding more controls to this functionality based on your feedback: since this version, you can make project settings read-only in the TeamCity UI.
 
-Now, you can write plugins for the experimental UI using modern web technologies and different frameworks. See [this blog post](https://blog.jetbrains.com/teamcity/2020/09/teamcity-2020-2-updated-plugin-development/) for more details.
+When the synchronization of a project's settings is enabled, all changes made in the UI are committed to the settings repository, and vice versa. But in some cases, it might be convenient to prohibit editing settings via the UI. For example, if you store a project settings in the same repository with its source code, you might want to track and approve all changes entirely by the means of VCS. Or, if you import settings from a read-only branch and then change them in the UI, TeamCity will fail to commit back to the repository and, therefore, apply new changes made in the VCS.
 
-### Experimental Build Queue page
+To address these and any similar cases, we've added a new option: _Allow editing project settings via UI_. If you disable it in a project, this will make this project's settings read-only in the UI and prevent TeamCity commits to the settings' repository.
 
-We are actively working on the new representation of the build queue. __Since TeamCity 2020.2.2, the new queue is displayed by default.__ In earlier versions, you can switch to it by clicking the test-tube icon in the upper right corner of the screen.
+To toggle the new option, go to __Project Settings | Versioned Settings | Configuration__:
 
-The new sidebar is of great help to our users on the __Projects__ and __Agents__ pages. Now, it is available for the __Queue page__ as well, which is most helpful for big installations with many agent pools.   
+<img src="versioned-settings-sync.png" width="460" alt="Read-only project settings"/>
 
-You can also click any build in the queue to see its details:
+[Read this article](storing-project-settings-in-version-control.md#Synchronizing+Settings+with+VCS) for more details.
 
-<img src="exp-queue.png" alt="Experimental build queue"/>
+## Limit permissions of access tokens
 
-## Customizable clean-up schedule
+You can now create access tokens with limited permissions and use these tokens for REST API requests. This gives you more control over how your scripts integrate with TeamCity. For example, if used in combination with the timeout setting, this allows generating short-lived tokens for specific tasks.
 
-TeamCity server clean-up becomes more flexible with the support of [cron-like expressions](cron-expressions-in-teamcity.md). You can customize the schedule so the clean-up starts with any necessary regularity: for example, on weekends or twice a day.
+By default, a token's _Permissions scope_ is set to "_Same as current user_". It means that the created token will grant the same [permissions](role-and-permission.md) as those of the current user. You can use such a token both for authentication in the UI and for REST API requests.
 
-<img src="clean-up-cron.png" alt="Cron expressions in clean-up"/>
+If you change the scope to "_Limit per project_", you will be able to limit the token's access to a certain project and even select particular permissions for it. The list of available projects and permissions depend on your user role. Tokens with a limited scope can only be used for REST API requests.
 
-Remember that too frequent clean-ups might extensively load the CPU, and too rare clean-ups take more time and might lead to garbage accumulation. We recommend keeping the clean-up schedule balanced. In most cases, a daily clean-up would be enough, but highly-loaded installations might require running clean-up more frequently.
+<img src="limit-access-token.png" width="460" alt="Access token with limited permissions"/>
 
-## Time-limited access tokens
+>Make sure to thoroughly configure the token's scope as some permissions might depend on another.
 
-TeamCity can generate time-limited [access tokens](managing-your-user-account.md#Managing+Access+Tokens). You can use these tokens in scripts or other REST API requests to grant temporary access to the TeamCity server. After the token’s time limit expires, TeamCity will automatically revoke its access.
+## Perforce support improvements
 
-To add a new token, go to __My Settings & Tools | Access tokens__:
+This release brings multiple improvements for projects versioned in [Perforce](https://www.perforce.com/).
 
-<img src="tmp-access-token.png" alt="Temporary access tokens"/>
+### Perforce client in Linux Docker images
 
-## Editing project settings on secondary nodes
-{product="tc"}
+Linux Docker images of TeamCity agent and server now come with a Perforce client.
 
-TeamCity 2020.2 adds a [new responsibility](configuring-secondary-node.md#Processing+User+Requests+to+Modify+Data+on+Secondary+Node) for secondary nodes. If granted to a node, it allows UI actions: running, stopping, tagging, commenting builds, and much more. The [list of supported UI actions](configuring-secondary-node.md#User-level+Actions+on+Secondary+Node) now also includes editing projects and build configurations (with a few limitations, such as editing cloud profiles).   
-Disabling this responsibility will switch a secondary node to a read-only mode.
+### Simplified setup of post-commit hooks
 
-See also [upgrade notes](upgrade-notes.md#Changes+from+2020.1.x+to+2020.2).
+Post-commit hooks allow reducing the number of polling operations and offloading the TeamCity and VCS servers. In the previous versions, it was required to maintain several hooks for Perforce. Now, you can easily configure a single post-commit hook for the entire Perforce depot. To do this, follow [this instruction](configuring-vcs-post-commit-hooks-for-teamcity.md#Using+post-commit+script+for+Perforce) in our documentation.
 
-## Monitoring disk usage in external storage
-{product="tc"}
+>A generic script for other VCS types is available [here](configuring-vcs-post-commit-hooks-for-teamcity.md#Post-commit+generic+script).
 
-An increasing number of our users prefer storing build artifacts in cloud — for example, in Amazon S3. However, it was not previously possible to see what amount of data is stored there.
+### Support ChangeView specification
 
-The [Disk Usage](disk-usage.md) report now supports external [artifact storage](configuring-artifacts-storage.md). It shows the amount of data stored in each configured storage or in all of them at once. Besides, if you had several artifact directories configured for the local storage, you can now also see this report separately for each directory.
+TeamCity now supports the [ChangeView](https://www.perforce.com/manuals/p4guide/Content/P4Guide/configuration.workspace_view.changeview.html) specification in Perforce clients and understands the `@revision` syntax in the import statements of streams' definitions.
 
-On the __Administration | Disk Usage__ page, you can switch between the detected storages and see detailed reports:
+Moreover, if a [Perforce VCS root](perforce.md) is set to the _Client mapping mode_, you can use the `ChangeView` specification to limit the root's scope to a particular revision or multiple revisions. To do this, open the settings of a Perforce VCS root, choose the Client mapping connection mode, and enter the client mapping. For example:
 
-<img src="disk-usage.png" alt="External storage in Disk Usage report"/>
+```Plain Text
+//my-depot/... //team-city-agent/...
+ChangeView:
+    //my-depot/dir1/…@90
+    //my-depot/dir2/…@automaticLabelWithRevision
+```
 
-## Identifying builds with custom settings
+where `90` is the number of the exact revision of `dir1` and `automaticLabelWithRevision` is the labeled revision of `dir2`. All the other revisions of these directories will not be monitored by this VCS root.
 
-It is now easier to distinguish "custom" builds from regular ones. If a build was run with custom parameters or artifact dependencies, or not on the latest commit, TeamCity will visually mark such build. It will show the respective icon and hint opposite this build in the build list:
+### Clean up stream workspaces on Perforce server
 
-<img src="custom-build-hint.png" alt="Custom build hint"/>
+TeamCity allows using [Perforce streams as feature branches](perforce-streams-as-feature-branches.md). To optimally process changes in such streams, it needs to create and maintain dedicated workspaces on the Perforce server. Over time, these workspaces might consume a significant amount of resources on the Perforce server's machine. Besides, if you want to close a task stream, you won't be able to do this if there is a workspace associated with it. Both of these problems can be solved by deleting no longer necessary workspaces. Previously, there were no means to clean them up automatically, and any manual cleaning would require involving a Perforce server administrator. With the new _Perforce Administrator Access_ connection, project administrators can clean workspaces right from the TeamCity UI.
 
-and in the build results:
+To configure this, go to your project settings in TeamCity and, under __Connections__, add a new connection with the _Perforce Administrator Access_ type. Enter the host and user credentials for accessing the Perforce server (the user must have the [admin permission](https://www.perforce.com/manuals/p4sag/Content/P4SAG/protections.set.html#protections.set.access_levels)), and TeamCity will connect to it.
 
-<img src="customized-params-build-results.png" alt="Custom build hint"/>
+<img src="p4-admin-connect.png" width="460" alt="Perforce Administrator Access connection"/>
 
-Click the link in the hint to open the related tab of build results.
+During every [clean-up](clean-up.md), TeamCity will detect and delete workspaces that have been inactive for more than 7 days. Or, you can delete them anytime by clicking Delete these workspaces in the connection settings. Note that workspaces are deleted only on the server — not on build agents — and only if they were created by TeamCity.
 
->This functionality works both in the classic and experimental UI.
+If the support for feature branches is enabled in a Perforce root, it is also possible to delete workspaces associated with any stream available to this root. Go to __Build Configuration Home__, open the __Actions__ menu, and click __Delete Perforce stream workspaces__. By default, this action is available to all users with the Project Developer role. In this menu, you can specify a path to a stream, and TeamCity will delete the related workspaces on the Perforce server.
 
-## Muting failed tests after successful retry
+<img src="delete-stream-ws.png" width="296" alt="Delete Perforce stream workspaces"/>
 
-Some builds can retry tests if they fail. This is most convenient for _flaky tests_. Such tests can alternately fail and succeed when applied to the same source revision, and you might want to exclude their influence on the build status.   
-Now, if _test retry_ is enabled in your build, TeamCity will mute a failed test if it eventually succeeds during the same build run. This test will not affect the build status, and the build will finish successfully given it has no other problems.
+## Onboarding UI assistant
 
-<img src="test-retry.png" alt="Muted by test retry"/>
+TeamCity has a rich user interface, and some of its numerous handy features might not be obvious to beginners. To help our new users navigate around the interface, we introduce the onboarding UI assistant.
 
-See more details in the [documentation](build-failure-conditions.md#Common+build+failure+conditions).
+To enable it, open the __Help__ menu in the upper right corner of the screen and click __Show Hints__. You can hide them anytime by closing the assistant menu.
+
+To see a hint for a certain element, hover over its name in the assistant menu. Some hint names also provide a ![link-to-doc.png](link-to-doc.png) link to the related documentation.
+
+<img src="show-hints.png" width="460" alt="Onboarding UI assistant"/>
+
+Hints are available for [experimental](teamcity-experimental-ui.md) __Project Home__, __Build Configuration Home__, and __Build Overview__, as well as for some of the __Settings__ pages.
+
+## Experimental UI improvements
+
+Our experimental UI is a work in progress: we introduce its features in the early stages of development so you can already benefit from them. In each release, we polish already existing pages and reproduce all the important classic features in the new UI.
+
+The experimental UI roadmap strongly depends on our users' feedback. In version 2021.1, we've focused on improving the Build Overview page: read below about a [tree mode for tests](#Show+tests+in+tree+mode+in+Build+Overview) and a new [code coverage visualization](#New+code+coverage+preview). We've also [adjusted the design] of the __Project Home__ page(#Refined+Project+Home) based on your requests.
+
+>Leave feedback about your experience with the experimental UI via [this form](https://teamcity-support.jetbrains.com/hc/en-us/requests/new?ticket_form_id=360001686659).
+
+### Show tests in tree mode in Build Overview
+
+Test results are often the most important information you seek when opening the build details. We keep improving how tests are represented in our experimental UI: our goal is to reproduce all instruments available in the classic UI and make them even handier for you. Now, the new UI supports the test tree mode in the __Build Overview__.
+
+In the _Tests_ block, click __Show grouped tests__, and TeamCity will represent them in a tree mode, grouped together by _project → build configuration → test suite → test package → test class_. You can switch between the tree and flat structure anytime, depending on your current tasks.
+
+<img src="test-tree-mode.png" width="706" alt="Tree mode for tests"/>
+
+As tests within the same group have a similar purpose, you might want to quickly select them all or temporarily collapse them to focus on other groups. The tree mode works great for that, and it is especially helpful if there are many tests in your build configuration. When a group is selected, you can apply actions like __Investigate__ or __Mute__ to all its tests at once.
+
+If you prefer a keyboard navigation, use __Up__ and __Down__ keys to navigate the tree and __Space__ to collapse or expand the selected group or test.
+
+### New code coverage preview
+
+TeamCity can provide code coverage for [multiple build runners](code-coverage.md). With this release, the code coverage preview in __Build Overview__ gets even more visual.
+
+If coverage is available for a build configuration, you can quickly preview a visualized statistics of the build's tests and see how it changed compared to the previous build:
+
+<img src="code-coverage-preview.png" width="706" alt="Code coverage preview"/>
+
+### Refined Project Home
+
+After gathering your feedback on the experimental __Project Home__ page, we focused on two tasks: use the space on this page more effectively and make a project tree easier to navigate. We hope that the refined page will serve you as a handy dashboard for previewing and running all builds of the same project:
+
+<img src="project-home.png" width="706" alt="Refined Project Home"/>
+
+## Restrict to customize builds with personal patches
+
+TeamCity allows running a custom build with your local changes — without actually changing the common project's code stored in a VCS. To run such a build, you need to send the patch with changes to the TeamCity server: either by using a [Remote Run](remote-run.md) in IDEs or by [uploading it](personal-build.md#Direct+Patch+Upload) via UI or REST API. This patch will be delivered to the build agent machine and used only in the custom build. However, as the patch is stored on the agent file system, it would be wise to ensure that it includes only trusted changes, which cannot potentially harm the next builds running on this agent.
+
+For this purpose, we've created a new [user permission](role-and-permission.md) — _Change build source code with a custom patch_. On upgrading to 2021.1, it will be automatically enabled for the default Project Developer role and other roles with the _Customize build permission_. By toggling this permission, you can granularly control who can patch builds or, if necessary, fully restrict this functionality in important projects.
+
+## Customize multipart upload of artifacts to Amazon S3
+
+If you store build artifacts in Amazon S3, you can now control how they are uploaded. TeamCity uses a [multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html) of large files by default, but it is now possible to customize its parameters: upload threshold and upload part size. This can help use the network bandwidth more effectively and improve throughput.
+
+<img src="multipart-upload.png" width="706" alt="Multipart upload of large artifacts"/>
+
+[Read this section](configuring-artifacts-storage.md#Multipart+Upload) for more details.
+
+## Add multiple VCS triggers per build configuration
+
+Now, you can add more than one [VCS trigger](configuring-vcs-triggers.md) to a build configuration. This is convenient if you want to trigger builds in the same configuration but according to different trigger rules and with different branch filters. This allows you to set a [quiet period](configuring-vcs-triggers.md#Quiet+Period+Settings) for builds in all branches except one — where a build will start as soon as a new change is committed. Or, you can configure a trigger to start builds on each check-in only in one given branch.
+
+>To achieve even greater results, you can [customize the parameters of triggered builds](#Customize+automatically+triggered+builds).
+
+## Choose checkout policy for Git roots
+
+A Git VCS root has a new _Checkout policy_ option. You can choose between four policies and get different benefits, depending on the lifecycle of your build agents.
+
+The default policy is AUTO, which means the decision is always up to TeamCity. But, you can enforce a certain policy for a VCS root by choosing one of the other options:
+* _Use mirrors_: best for long-lived agents that run numerous builds. A repository mirror is kept on the agent, which speeds up the successive builds.
+* _Do not use mirrors_: simply fetch a repository in the build checkout directory, without creating a mirror. Less optimal in terms of disk usage and preserved for backwards compatibility with existing build configurations.
+* _Shallow clone_: best for short-lived agents (for example, disposable agents in the cloud). Fetches only a single revision necessary for one build. This can make the build start significantly faster, especially if the project repository has a long history of revisions.
+
+[Read this article](git.md#git-checkout-policy) for more details.
+
+## Viewing thread dump of process running inside Docker container
+
+TeamCity allows viewing a thread dump of processes running on a build agent machine right in the Build Results. Now, you can view it even if the process runs inside a Docker container (for example, with our [Docker Wrapper](docker-wrapper.md) or [Docker Compose](docker-compose.md) functionality). For Windows containers, TeamCity shows Java processes and their thread dumps. For Linux containers, it shows all running processes and thread dumps for Java processes.
+
+While the build is running, click __View thread dump__ in its __Overview__.
+
+<img src="thread-dump.png" width="706" alt="View thread dump"/>
+
+TeamCity will show the structured information about the agent processes:
+
+<img src="thread-dump-docker.png" width="706" alt="Thread dump of a Docker process"/>
+
+## Quick access to build status widget
+
+Our [build status widget](configuring-general-settings.md#Enable+Status+Widget) shows the status of the last build in a configuration. As the widget doesn't require authentication, you can feature the build status icon anywhere outside TeamCity: for example, on GitHub. Now, you can quickly access this widget from the __Build Overview__.
+
+>Make sure the widget support is enabled in __Build Configuration Settings | Build Options__.
+>
+{type="note"}
+
+To access the widget menu from __Build Configuration Home__, open the __Actions__ menu and click __Get build status icon__:
+
+<img src="status-icon.png" width="296" alt="Get build status icon"/>
+
+The _Status Image_ menu shows the icon preview and allows copying its code in one of the supported formats:
+
+<img src="status-widget.png" width="460" alt="Build status widget"/>
+
+You can embed this code into an external page and view the build status without opening TeamCity.
+
+>Learn how to use a custom HTML widget instead of the static icon in [this article](configuring-general-settings.md#HTML+Status+Widget).
 
 ## Other improvements
 
-* __Source branch filter for pull requests__   
-   TeamCity can filter pull requests not only by the target but by the source branch. It allows you to easily eliminate certain draft branches from the scope of monitoring.   
-   Note that this filter is not applicable to Bitbucket Cloud as TeamCity monitors pull requests directly on their source branches.
-* __Passing NuGet packages between build steps__
-If you need to publish NuGet packages and then use their contents within one build, you want to guarantee they are published and indexed on time — and not at the build finish. Previously, it required using a NuGet Publish step. Since this release, a build step can send the `##teamcity[publishNuGetPackage]` [service message](service-messages.md#Passing+NuGet+Packages+between+Steps) instead. This ensures the NuGet packages are published in all configured NuGet feeds right at the end of the current build step and are available in the following build steps.
-* __Faster cold start of agent Docker containers__   
-  Since this version, TeamCity agent Docker images are based on the full agent distribution. The full agent contains all bundled plugins. This significantly speeds up the agent cold start because the full agent doesn't need to synchronize all plugins with the server. When launched, it will only download external plugins or tools installed on your server, if any.   
-  Please note that this improvement is effective only if the Docker image matches the server version.
-* __Easier Perforce SSH root configuration__   
-   If a VCS root of your project connects to Perforce via SSH, TeamCity will automatically establish a trusted connection with it. The `p4 trust` command is now sent every time you test a Perforce connection or a build agent checks out from Perforce.
-* __Limiting the number of artifacts published per build__   
-   This helps prevent memory consumption and performance problems if multiple builds publish many artifacts in parallel.   
-   This number is set to 1000 in all new installations. On upgrade of an existing TeamCity installation, this number will stay unlimited. You can limit the value in __Administration | Server Administration | Global Settings__. Note that this limit does not consider hidden artifacts.
-* __Execution timeout for composite builds__   
-   When a [composite build](composite-build-configuration.md) comprises a build that cannot start (for example, it has no compatible agents), this composite build might run forever until it is terminated manually. Now, you can set an execution timeout for such build so it fails automatically after being unable to start for a long time.
-* __Support for an S3 path prefix__   
-   You can now set a path prefix when configuring an Amazon S3 artifact storage. This allows using the same S3 bucket for all TeamCity projects and configure prefix-based permissions.
-* __Updated pull request icons__   
-   Icons representing pull requests in build results are now larger and change color depending on the pull request state, helping you to identify its status quicker.
-* __Health report about insecure Tomcat connection configuration__   
-   If the server is installed behind a reverse proxy providing HTTPS access to the TeamCity server, TeamCity now checks if the `secure="true"` and `scheme="https"` attributes are present in the Tomcat connection. If these attributes are missing, TeamCity will display the respective health report.
-* __No default Gradle build file value__   
-   Previously, the _Build file_ field of the [Gradle](gradle.md) runner was set to `build.gradle` by default. We have removed this default value as some users rely on custom names of build files and prefer to let Gradle decide what file to choose.   
-   If you use `build.gradle` as your build file, all will continue to work as before this update.
-* __REST API updates__:
-   * [VCS labels](https://www.jetbrains.com/help/teamcity/rest/manage-builds.html#VCS+Labels)
-   * [Test statistics for personal builds](https://www.jetbrains.com/help/teamcity/rest/manage-tests-and-build-problems.html)
-* The [.NET](net.md) build runner now supports earlier versions of Visual Studio and MSBuild. Currently supported versions are: Visual Studio 2010 or later, MSBuild 4 / 12 or later.
-* To see all bundled tool updates, read our [upgrade notes](upgrade-notes.md#Changes+from+2020.1.x+to+2020.2).
-{product="tc"}
-* Version 2020.2 comes with ~30 performance fixes in various pieces of functionality (for example, in the Custom Run dialog).
+* __Cross-platform ReSharper Inspections and Duplicates Finder__  
+  ReSharper [Inspections](inspections-resharper.md) and [Duplicates Finder](duplicates-finder-resharper.md) now support the cross-platform mode and can be run inside Docker.
+* __Setting .NET SDK requirements for build agents__  
+  The [.NET build runner](net.md) now allows setting a requirement to SDKs installed on a build agent. You can enter the list of expected SDK versions when configuring a .NET step, and TeamCity will automatically create agent requirements: the current build will only run on agents that have all the required SDKs.
+* __Python runner updates__
+  * The [Python](python.md) steps can be run inside a [Venv](https://docs.python.org/3/library/venv.html) virtual environment.
+  * The runner can automatically install Flake8, Pylint, or Pytest if they are missing on the build agent.
+  * The runner supports the [Poetry](https://python-poetry.org) environment tool for packaging and managing dependencies.
+* __Marketplace plugin verification__  
+  TeamCity will check if every new plugin, installed from the [JetBrains Marketplace](https://plugins.jetbrains.com/marketplace), is signed with a valid certificate. This will ensure that the installed plugin is safe to use and its source code is intact.
 
 ## Fixed issues
 
-See [TeamCity 2020.2 release notes](teamcity-2020-2-release-notes.md).
+See [TeamCity 2021.1 release notes](teamcity-2021-1-release-notes.md).
 
 ## Upgrade notes
-{product="tc"}
 
-Before upgrading, we highly recommend reading about important changes in [version 2020.2 comparing to 2020.1.x](upgrade-notes.md#Changes+from+2020.1.x+to+2020.2).
+Before upgrading, we highly recommend reading about [important changes in version 2021.1 compared to 2020.2.x](upgrade-notes.md#Changes+from+2020.2.x+to+2021.1).
 
 ## Previous releases
+
+* [What's New in TeamCity 2020.2](https://www.jetbrains.com/help/teamcity/2020.2/what-s-new-in-teamcity.html)
 * [What's New in TeamCity 2020.1](https://www.jetbrains.com/help/teamcity/2020.1/what-s-new-in-teamcity.html)
 * [What's New in TeamCity 2019.2](https://www.jetbrains.com/help/teamcity/2019.2/what-s-new-in-teamcity-2019-2.html)
 * [What's New in TeamCity 2019.1](https://www.jetbrains.com/help/teamcity/2019.1/what-s-new-in-teamcity-2019-1.html)
@@ -227,5 +299,3 @@ Before upgrading, we highly recommend reading about important changes in [versio
 ## Roadmap
 
 See the [TeamCity roadmap](https://www.jetbrains.com/teamcity/roadmap/#teamcity-roadmap) to learn about future updates.
-
-

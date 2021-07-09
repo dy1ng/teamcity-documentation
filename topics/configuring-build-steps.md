@@ -3,7 +3,7 @@
 
 When creating a build configuration, it is important to configure the sequence of _build steps_ to be executed.
 
-Build steps are configured in the __Build Steps__ section of the [__Build Configuration Settings__](creating-and-editing-build-configurations.md) page. Here, you can:
+Build steps are configured in the __Build Steps__ section of the __[Build Configuration Settings](creating-and-editing-build-configurations.md)__ page. Here, you can:
 * add new steps manually;
 * [autodetect steps](#Autodetecting+build+steps) by scanning the source VCS repository;
 * copy and delete steps;
@@ -13,7 +13,7 @@ Each build step is represented by a [build runner](build-runner.md) and provides
 
 Build steps are invoked sequentially.
 
-The decision whether to run the next build step may depend on the exit status of the previous build steps, the current build status, or [execution conditions](build-step-conditions.md).
+The decision whether to run the next build step may depend on the exit status of the previous build steps, the current build status, or [execution conditions](build-step-execution-conditions.md).
 
 The build step is considered _failed_ if (1) the build process returned a non-zero exit code and (2) the "_Fail build if build process exit code is not zero_" build failure condition is enabled (see [Build Failure Conditions](build-failure-conditions.md)); otherwise, the build step is considered _successful_.
 
@@ -41,11 +41,11 @@ __Tips:__
 
 <anchor name="execution-conditions"/>
 
-Since TeamCity 2020.1, you can also add granular [execution conditions](build-step-conditions.md) for build steps.
+Since TeamCity 2020.1, you can also add granular [execution conditions](build-step-execution-conditions.md) for build steps.
 
 ## Autodetecting build steps
 
-TeamCity can scan the source VCS repository of a project and autodetect build steps in Ant, NAnt, Gradle, Maven, MSBuild, Visual Studio solution files, PowerShell, Xcode project files, Rake, and IntelliJ IDEA projects.
+TeamCity can scan the source VCS repository of a project and autodetect build steps in Node.js, Kotlin, Python, Ant, NAnt, Gradle, Maven, MSBuild, Visual Studio solution files, PowerShell, Xcode project files, Rake, and IntelliJ IDEA projects.
 
 In __Build Steps__, click __Auto-detect build steps__, and then select the proposed steps you want to add to the current build configuration. You can change their settings afterwards.
 

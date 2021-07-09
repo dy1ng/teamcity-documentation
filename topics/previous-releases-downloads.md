@@ -8,11 +8,33 @@ If you are upgrading, please ensure all your licenses will be still valid with t
 >* For all downloads, you can get the SHA256 checksum: just add `.sha256` to the download URL.
 >* Windows installer can also be downloaded archived: replace `.exe` in the link to the installer with `-installer.zip`.
 
+See also: [Documentation for Previous Versions](documentation-for-previous-versions.md) and [Roadmap Outline](roadmap-outline.md).
+
 ## Current version
 
-__Current TeamCity Version is 2020.2.4__
+__Current TeamCity Version is 2021.1.1__
 
-Release date: 15 April 2021   
+Release date: 18 June 2021   
+Build 92714
+
+[Windows installer](https://download.jetbrains.com/teamcity/TeamCity-2021.1.1.exe)   
+[Archive with bundled Tomcat (any platform)](https://download.jetbrains.com/teamcity/TeamCity-2021.1.1.tar.gz)
+
+[Release notes](teamcity-2021-1-1-release-notes.md)
+
+## TeamCity 2021.1
+
+Release date: __20 May 2021__   
+Build 92597
+
+[Windows installer](https://download.jetbrains.com/teamcity/TeamCity-2021.1.1.exe)   
+[Archive with bundled Tomcat (any platform)](https://download.jetbrains.com/teamcity/TeamCity-2021.1.1.tar.gz)
+
+[Release notes](teamcity-2021-1-release-notes.md)
+
+## TeamCity 2020.2.4
+
+Release date: 15 April 2021    
 Build 86063
 
 [Windows installer](https://download.jetbrains.com/teamcity/TeamCity-2020.2.4.exe)   

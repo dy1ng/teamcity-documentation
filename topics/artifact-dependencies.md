@@ -1,7 +1,7 @@
 [//]: # (title: Artifact Dependencies)
 [//]: # (auxiliary-id: Artifact Dependencies)
 
-This page details configuration of the TeamCity [_artifact dependencies_](dependent-build.md#Artifact+Dependency).
+This page details configuration of the TeamCity _[artifact dependencies](dependent-build.md#Artifact+Dependency)_.
 
 The __Build Configuration Settings | Dependencies | Artifact Dependencies__ section allows configuring these dependencies. It is possible to disable a configured dependency temporarily or permanently using the corresponding option in the last column of the _Artifact Dependencies_ list.
 
@@ -47,8 +47,8 @@ Get artifacts from
 
 Specify the type of build whose artifacts are to be taken:
 
-* Latest successful build: artifacts will be taken from the successful dependency build with the most recent revision (that is the latest change ID)
-* Latest [pinned build](pinned-build.md)
+* Latest successful build: artifacts will be taken from the successful dependency build with the most recent revision (the latest change ID)
+* Latest [pinned build](pinned-build.md): artifacts will be taken from the pinned dependency build with the most recent revision (the latest change ID)
 * Latest finished build: if a snapshot dependency is also configured in a build configuration, artifacts will be taken from the build with the same sources as the current build
 * Build from the same chain: this option is useful when you have a [snapshot dependency](snapshot-dependencies.md) and want to obtain artifacts from a build with the same sources
 * Build with specified build number
@@ -126,7 +126,7 @@ Check this option to delete the content of the destination directories before co
 
 </td></tr></table>
 
-At any point you can launch a build with [custom artifact dependencies](triggering-a-custom-build.md#Promoting+Build).
+At any point you can launch a build with [custom artifact dependencies](running-custom-build.md#Promoting+Build).
 
 ### Artifacts Rules
 

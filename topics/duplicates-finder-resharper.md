@@ -1,12 +1,14 @@
 [//]: # (title: Duplicates Finder \(ReSharper\))
 [//]: # (auxiliary-id: viewpage.actionpageId113084077;Duplicates Finder \(ReSharper\))
 
-The _Duplicates finder (ReSharper)_ build runner, based on [ReSharper Command Line Tools](http://www.jetbrains.com/resharper/features/command-line.html), is intended to catch similar code fragments and provide a report on  the discovered repetitive blocks of C# and Visual Basic .NET code in Visual Studio 2003, 2005, 2008, 2010, 2012, 2013, and 2015 solutions.
+The _Duplicates finder (ReSharper)_ build runner, based on [ReSharper Command Line Tools](http://www.jetbrains.com/resharper/features/command-line.html), is intended to catch similar code fragments and provide a report on the discovered repetitive blocks of C# and Visual Basic .NET code in Visual Studio 2003, 2005, 2008, 2010, 2012, 2013, and 2015 solutions.
 
 <note>
 
 This runner requires .NET Framework 4.6.1 (or higher) to be installed on the agent where builds will run.
 </note>
+
+Refer to [Configuring Build Steps](configuring-build-steps.md) for a description of common build steps' settings. Refer to [Docker Wrapper](docker-wrapper.md) to learn how you can run this step inside a Docker container).
 
 ## Sources
 
@@ -74,9 +76,28 @@ R# CLT Home Directory
 
 <td>
 
-Select the ReSharper Command Line Tools version. You can check the installed JetBrains ReSharper Command Line Tools versions on the __[Administration | Tools](installing-agent-tools.md)__ page. If you want to run ReSharper duplicates using a specific ReSharper version (for example, to ensure it matches the version you have installed in Visual Studio), you can use this page to install another version of the tools and can change the default version to be used.
+Select the ReSharper Command Line Tools version.
 
-</td></tr></table>
+You can check the installed JetBrains ReSharper Command Line Tools versions on the __[Administration | Tools](installing-agent-tools.md)__ page. If you want to run ReSharper duplicates using a specific ReSharper version (for example, to ensure it matches the version you have installed in Visual Studio), you can use this page to install another version of the tools and can change the default version to be used.
+{product="tc"}
+
+</td></tr>
+
+<tr>
+
+<td>
+
+dupFinder Platform
+
+</td>
+
+<td id="ReSharperDupFinderPlatform" auxiliary-id="ReSharperDupFinderPlatform">
+
+Select the platform bitness of the dupFinder tool. By default, x64. The cross-platform duplicates finder is also supported in ReSharper 2020.2.1 or later.
+
+</td></tr>
+
+</table>
 
 ## Duplicate Searcher Settings
 

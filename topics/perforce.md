@@ -6,7 +6,7 @@ Common VCS root properties are described [here](configuring-vcs-roots.md#Common+
 
 <note product="tc">
 
-A Perforce client must be installed on the TeamCity server and it should be present in `PATH`. Alternatively, a full path to `p4` could be set via the [internal property](configuring-teamcity-server-startup-properties.md#TeamCity+internal+properties) `teamcity.perforce.customP4Path`.   
+A Perforce client must be installed on the TeamCity server and it should be present in `PATH`. Alternatively, a full path to `p4` could be set via the [internal property](configuring-teamcity-server-startup-properties.md#TeamCity+internal+properties) `teamcity.perforce.customP4Path`. The property value must include the `p4` filename, too.
 If you plan to use the agent-side [checkout mode](vcs-checkout-mode.md#agent-checkout), note that a Perforce client must be installed on the agents, and the path to the p4 executable must be added to the PATH environment variable.  
 Also check [TeamCity and Perforce compatibility](perforce-vcs-compatibility.md).
 </note>
@@ -51,7 +51,7 @@ Click this radio button to specify an existing Perforce stream. TeamCity will us
 
 TeamCity supports deeper directory structure within the root depot: depots with a depth of `//DEPOTNAME/1/2/n` can be specified in this field.
 
-[Parameters](configuring-build-parameters.md) are supported. For the `StreamAtChange` option, use the [_Label to checkout_](#Agent+Checkout+Settings) field.
+[Parameters](configuring-build-parameters.md) are supported. For the `StreamAtChange` option, use the _[Label to checkout](#Agent+Checkout+Settings)_ field.
 
 <note>
 
@@ -116,6 +116,16 @@ Example:
 //depot/MPS/lib/tools/... //team-city-agent/tools/...
 
 ```
+
+To focus on specific revisions, use the [`ChangeView`](https://www.perforce.com/manuals/p4guide/Content/P4Guide/configuration.workspace_view.changeview.html) specification:
+
+```
+//depot/... //team-city-agent/...
+ChangeView:
+    //depot/dir1/…@90
+    //depot/dir2/…@automaticLabelWithRevision
+```
+where `90` is the number of the exact revision of `dir1` and `automaticLabelWithRevision` is the labeled revision of `dir2`. All the other revisions of these directories will not be monitored by this VCS root.
 
 [Clean Checkout](clean-checkout.md) on a client mapping change __is not__ enforced for the agent-side checkout in the following cases:
 

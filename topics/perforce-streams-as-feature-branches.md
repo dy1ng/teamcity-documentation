@@ -3,13 +3,9 @@
 
 ## How to enable
 
-On the VCS Root page, select checkbox "_Enable feature branches support_" after the parent stream name.
+In the [Perforce VCS root](perforce.md) settings, select the "_Enable feature branches support_" option next to the parent stream name. After that, all streams which have the specified main stream as a parent will be included into the [feature branches](working-with-feature-branches.md).
 
-After that, all streams which have the specified main stream as a parent, will be included into the feature branches.
-
-It is possible to specify some mapping to include only specific streams into the feature branches set, like `+://stream-depot/*`.
-
-In this case, only streams under depot __stream-depot__ will be included for changes collection/build triggering.
+It is possible to specify some mapping to include only specific streams into the feature branches set, like `+://stream-depot/*`. In this case, only streams under depot __stream-depot__ will be included for changes collection/build triggering.
 
 ## Task streams
 
@@ -24,3 +20,7 @@ For instance, if a file path in the working copy starts with `//depot/stream1/so
 But if you modified a file from another stream (imported into the working copy) and want to enforce build in a particular stream, you should specify a configuration parameter `teamcity.build.branch` when triggering the remote run.
 
 <img src="perforce-stream.png" width="367" alt="Remote run of Perforce stream"/>
+
+## Clean Stream Workspaces
+
+To properly process task streams, TeamCity needs to create dedicated workspaces on the Perforce server. To save the server resources, you can [clean inactive workspaces](perforce-workspace-handling-in-teamcity.md#Cleaning+Workspaces+on+Perforce+Server), created by TeamCity, directly from the TeamCity UI.

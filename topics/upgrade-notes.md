@@ -1,6 +1,74 @@
 [//]: # (title: Upgrade Notes)
 [//]: # (auxiliary-id: Upgrade Notes)
 
+## Changes from 2021.1 to 2021.1.1
+
+### Known Issues
+{id="known-issues-2021211"}
+
+* Builds that use Git [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) might fail with the "_Failed to perform checkout on agent_" error. To prevent it, you need to set a branch for each used submodule in `.gitmodules`.  
+  This problem will be fixed in version 2021.1.2, but you can already download and install our Git plugin with the fix [here](https://youtrack.jetbrains.com/issue/TW-71933#focus=Comments-27-4975853.0-0).
+
+### Other Updates
+{id="other-updates-202111"}
+
+* If you have added the `teamcity.nuget.feed.async.request.enabled` internal property to workaround [this issue](#ki-202121) in 2021.1, remember to remove it on upgrading to 2021.1.1.
+* VCS roots of archived subprojects are now hidden by default on the __Project Settings | VCS Roots__ page. You can display them by enabling the _including archived_ filter option.
+
+## Changes from 2020.2.x to 2021.1
+
+<anchor name="ki-202121"/>
+
+### Known Issues
+{id="known-issues-202121"}
+
+* When trying to load a NuGet package which name contains the `.` (dot) character, users get the "Could not find acceptable representation" exception in the build log. This is caused by the issue in the new performance optimization algorithm: it truncates the file name to the part preceding the first dot. To workaround this issue, please download the fixed NuGet Support plugin [here](https://youtrack.jetbrains.com/issue/TW-71659#focus=Comments-27-4916989.0-0) and upload it in __Administration | Plugins__. Alternatively, you can temporarily disable the new optimization mode by setting the `teamcity.nuget.feed.async.request.enabled` [internal property](configuring-teamcity-server-startup-properties.md#TeamCity+internal+properties) to `false` — note that this property has to be removed after upgrading to TeamCity 2021.1.1.
+
+### Git Use Mirrors is deprecated in favor of Checkout Policy
+
+[Git](git.md) VCS roots now receive the new _[Checkout Policy](git.md#git-checkout-policy)_ option that replaces the _Use Mirrors_ checkbox and provides more flexibility. On upgrading, the roots' settings will keep their selected states. However, Git roots' settings in [Kotlin DSL](kotlin-dsl.md) specifications need to be updated.
+
+The `useMirrors` parameter in the Kotlin DSL of Git VCS roots is deprecated and replaced by the `checkoutPolicy` parameter that supports the following values: `AUTO` (default), `USE_MIRRORS`, `NO_MIRRORS`, `SHALLOW_CLONE`.
+
+### Deprecated non-portable Kotlin DSL
+
+Non-portable Kotlin DSL format is deprecated. It is no longer possible to create new projects in this format. For compatibility, projects that are already stored in this format will continue working.
+
+### Changed default port for Windows installers
+
+The default port in the TeamCity installer for Windows has been changed to 8111. Now, both `tar.gz` and `exe` installers use the same port.
+
+### OR as default operator for Lucene search
+
+TeamCity [Lucene-based search](search.md) now uses the `OR` operator by default instead of `AND`. This corresponds to the default Lucene syntax and helps optimize the search behavior and reduce its index size.
+
+### SVG build status icon by default
+
+The build status icon, available via the default `http://<TeamCity Server host>:<port>/app/rest/builds/<buildLocator>/statusIcon` [REST API endpoint](https://www.jetbrains.com/help/teamcity/rest/get-build-status-icon.html), is now provided in the SVG format instead of PNG. The `statusIcon.svg` endpoint is still supported for compatibility with existing scripts.  
+To get a PNG icon, use the `statusIcon.png` endpoint.
+
+### Unbundled old versions of REST API
+
+The following old versions of [REST API](https://www.jetbrains.com/help/teamcity/rest/teamcity-rest-api-documentation.html) have been unbundled: 6.0, 7.0, 8.1, 9.0, 9.1. If this change causes any problems for your setup, please contact us via any [feedback channel](feedback.md).
+
+### Bundled Tools Updates
+{id="bundled-tools-updates-20211"}
+
+* Bundled Amazon Corretto Java has been updated to version 11.0.11.9.1 in the TeamCity server Docker images and Windows installers.
+* Bundled [Ant](ant.md) has been updated to version 1.10.10. Note that this version requires Java 8 or later.
+* Bundled dotCover and ReSharper CLT have been updated to version 2021.1.2.
+* Bundled JaCoCo has been updated to version 0.8.6.
+* The Bundled Kotlin compiler, used in [TeamCity DSL](kotlin-dsl.md), has been updated to version 1.4.32.
+* Bundled Kotlin, used in the [Kotlin Script](kotlin-script.md) build runner, has been updated to version 1.5.0.
+* The bundled ReSharper and dotCover tools have been updated to version 2021.1.1.
+* JGit version, used in the [Git](git.md) plugin, has been updated to 5.10.0.202012080955-r.
+* SVNKit, used in [Subversion](subversion.md) VCS roots, has been updated to version 1.10.3.
+
+### Other Updates
+{id="other-updates-20211"}
+
+* The __My Settings & Tools__ page has been renamed to __Your Profile__.
+
 ## Changes from 2020.2.3 to 2020.2.4
 
 ### Verifying NuGet used in NuGet dependency trigger
@@ -64,7 +132,6 @@ Unfortunately, the affected .NET build steps cannot be converted automatically o
 {id="bundled-tools-updates-202021"}
 
 * Bundled Tomcat has been updated to version 8.5.61.
-* Bundled JaCoCo version has been updated to 0.8.6.
 
 ## Changes from 2020.1.x to 2020.2
 
@@ -387,7 +454,7 @@ If you were using the default bundled Java on Windows, make sure the following c
 
 ### Discontinued Running Builds Node
 
-The [Running Builds Node](https://confluence.jetbrains.com/display/TCD18/Configuring+Running+Builds+Node) is discontinued. In a multinode setup, you can instead [configure a secondary node](configuring-secondary-node.md) with the "_Processing data produced by running builds_" responsibility. Read more on the [Multinode Setup](multinode-setup.md#running-builds-node-discontinued) page.
+The [Running Builds Node](https://confluence.jetbrains.com/display/TCD18/Configuring+Running+Builds+Node) is discontinued. In a multinode setup, you can instead [configure a secondary node](multinode-setup.md) with the "_Processing data produced by running builds_" responsibility.
 
 ### Automatic management of git fetch memory
 
@@ -452,7 +519,7 @@ To workaround this problem without upgrading to 2019.1.5, download the fixed NuG
 
 <anchor name="running-builds-node-deprecated"/>
 
-* The [Running Builds Node](https://confluence.jetbrains.com/display/TCD18/Configuring+Running+Builds+Node) is deprecated and will be discontinued in TeamCity 2019.2. In a [multinode setup](multinode-setup.md), you can instead [configure a secondary node](configuring-secondary-node.md) with the _"Processing data produced by running builds"_ responsibility.
+* The [Running Builds Node](https://confluence.jetbrains.com/display/TCD18/Configuring+Running+Builds+Node) is deprecated and will be discontinued in TeamCity 2019.2. In a [multinode setup](multinode-setup.md), you can instead configure a secondary node with the _"Processing data produced by running builds"_ responsibility.
 
 ### Known issues
 

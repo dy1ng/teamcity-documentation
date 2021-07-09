@@ -16,8 +16,6 @@ In the web UI, go to __Administration | Diagnostics__ page. On the __Troubleshoo
 If it is not possible to enable debug logging mode from the TeamCity web UI, refer to [Changing Logging Configuration](#Changing+Logging+Configuration) section to learn how to adjust logging options manually.
 </tip>
 
-
-
 ## General Logging Description
 
 TeamCity uses [log4j library](http://logging.apache.org/log4j) for the logging and its settings can be [customized](#Changing+Logging+Configuration).
@@ -26,12 +24,15 @@ By default, log files are located under the `<[TeamCity Server home](teamcity-ho
 
 The most important log files are:
 
-<table><tr>
+<table>
+
+<tr><td></td><td></td></tr>
+
+<tr>
 
 <td>
 
 `teamcity-server.log`
-
 
 </td>
 
@@ -400,7 +401,7 @@ Example:
 
 By default, TeamCity searches for log4j configuration in the `.../conf/teamcity-server-log4j.xml` file (this resolves to `<[TeamCity Server home](teamcity-home-directory.md)>/conf/teamcity-server-log4j.xml` for TeamCity `.exe` and `.tar.gz` distributions when run from `bin`). If no such file is present, the default log4j configuration is used. The logs are saved to the `../logs` directory by default.
 
-The path to the configuration can be configured via the `log4j.configuration` JVM option or [internal property](configuring-teamcity-server-startup-properties.md). The path to the `logs` directory is configured via the `TEAMCITY_LOGS_PATH` environment variable, or, alternatively, via the `teamcity_logs` JVM option or [internal property](configuring-teamcity-server-startup-properties.md).   
+If necessary, you can change the path to the configuration by adding the `log4j.configuration` JVM option or [internal property](configuring-teamcity-server-startup-properties.md). The path to the `logs` directory is configured via the `TEAMCITY_LOGS_PATH` environment variable, or, alternatively, via the `teamcity_logs` JVM option or [internal property](configuring-teamcity-server-startup-properties.md).   
 For example: `log4j.configuration=file:../conf/teamcity-server-log4j.xml` and `teamcity_logs=../logs/`.   
 Default values can be looked up in the `bin/teamcity-server` script available in the `.exe` and `tar.gz` distributions.
 
