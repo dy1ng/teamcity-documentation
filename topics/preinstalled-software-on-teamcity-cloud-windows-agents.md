@@ -5,37 +5,26 @@
 
 |Software|Version|
 |---|---|
-|git|2.31.1|
-|git-lfs|git-lfs/2.13.3|
-|docker|20.10.6|
-|docker.cli|20.10.6|
-|docker-compose|1.28.0|
-|awscli|aws-cli/1.18.69|
-|kubectl|GitVersion:"v1.21.0",|
-|android-sdk|6858069|
-|p4||
-|mercurial|5.3.1|
-|svn||
-|helm|v3.5.0+g32c2223|
-|yarn||
-|ant|1.10.7|
-|gradle|6.8.1|
-|cmake|3.19.5|
-|powershell|7.1.1|
-|r|3.6.3|
-|groovy|3.0.7|
-|rvm|1.29.12-next|
-|rustup|1.23.1|
-|cargo|1.51.0|
-|rustc|1.51.0|
-|go|1.16|
-|nvm|0.33.11|
-|node|14.5|
-|python|3.8.5|
-|python2|2.7.18|
-|python3|3.9.4|
-|pip3|21.0.1|
-|pip|21.0.1|
-|ansible|2.9.6|
+|[7-Zip](https://www.7-zip.org/)|19.0|
+|[Ruby](https://www.ruby-lang.org/en/)|3.0.0.1|
+|[Unity Hub](https://unity.com/unity-hub)|3.0.1.0|
+|[Unity](https://unity.com/)|2020.3.27.22868|
+|[JDK](https://aws.amazon.com/corretto/)|11.0.13_8|
+|[.NET](https://dotnet.microsoft.com/)||
+|[kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)|1.22.3|
+|[AWS CLI](https://aws.amazon.com/cli/)|2.3.4|
+|[WiX Toolset](https://wixtoolset.org/)|3.11.2|
+|[NUnit](https://nunit.org/)|3.12.0|
+|[Perforce](https://www.perforce.com/)|2021.1|
+|[Git](https://git-scm.com/)|2.33.1.1|
+|[Mercurial](https://www.mercurial-scm.org/)|1.0.0.1|
+|[SVN](https://subversion.apache.org/)|1.14.1.51187|
+|[RTools](https://cran.r-project.org/bin/windows/Rtools/)||
+|[Node.js](https://nodejs.org/en/)|v16.13.2|
+|[Yarn](https://yarnpkg.com/)|1.22.15|
+|[Docker](https://www.docker.com/)|20.10.7|
+|[Docker Compose](https://docs.docker.com/compose/)|1.29.2|
+|[Gradle](https://gradle.org/)|7.2|
+|[CMake](https://cmake.org/)|3.22.0|
 
 </chunk> 
