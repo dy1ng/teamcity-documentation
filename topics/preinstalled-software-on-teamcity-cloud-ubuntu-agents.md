@@ -5,37 +5,51 @@
 
 |Software|Version|
 |---|---|
-|git|2.31.1|
-|git-lfs|git-lfs/2.13.3|
-|docker|20.10.6|
-|docker.cli|20.10.6|
-|docker-compose|1.28.0|
-|awscli|aws-cli/1.18.69|
-|kubectl|GitVersion:"v1.21.0",|
-|android-sdk|6858069|
-|p4||
-|mercurial|5.3.1|
-|svn||
-|helm|v3.5.0+g32c2223|
-|yarn||
-|ant|1.10.7|
-|gradle|6.8.1|
-|cmake|3.19.5|
-|powershell|7.1.1|
-|r|3.6.3|
-|groovy|3.0.7|
-|rvm|1.29.12-next|
-|rustup|1.23.1|
-|cargo|1.51.0|
-|rustc|1.51.0|
-|go|1.16|
-|nvm|0.33.11|
-|node|14.5|
-|python|3.8.5|
-|python2|2.7.18|
-|python3|3.9.4|
-|pip3|21.0.1|
-|pip|21.0.1|
-|ansible|2.9.6|
+|[Git](https://git-scm.com/)|2.37.1|
+|[Git LFS](https://git-lfs.github.com/)|3.2.0|
+|[Zsh](https://www.zsh.org/)|5.8|
+|[Chromium](https://www.chromium.org/)|104.0.5112.79|
+|[Firefox](https://www.mozilla.org/en-US/firefox/)||
+|[Google Chrome](https://www.google.com/chrome/)|104.0.5112.79|
+|[ChromeDriver](https://chromedriver.chromium.org/)|104.0.5112.79|
+|[Docker](https://www.docker.com/)|20.10.17|
+|[Docker CLI](https://docs.docker.com/engine/reference/commandline/cli/)|20.10.17|
+|[Docker Compose](https://docs.docker.com/compose/)|1.29.2|
+|[AWS CLI](https://aws.amazon.com/cli/)|1.18.69|
+|[kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)|v1.24.3|
+|[Azure CLI](https://docs.microsoft.com/en-us/cli/azure/)|2.39.0|
+|[Google Cloud SDK](https://cloud.google.com/sdk)|396.0.0|
+|[JDK 8](https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html)|java-1.8.0-amazon-corretto|
+|[JDK 15](https://docs.aws.amazon.com/corretto/latest/corretto-15-ug/downloads-list.html)|java-15-amazon-corretto|
+|[JDK 16](https://docs.aws.amazon.com/corretto/latest/corretto-16-ug/downloads-list.html)|java-16-amazon-corretto|
+|[JDK 17](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html)|java-17-amazon-corretto|
+|[JDK 18](https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html)|java-18-amazon-corretto|
+|[JDK 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)|java-11-amazon-corretto|
+|[Android SDK](https://developer.android.com/studio/command-line)|7302050|
+|[Perforce](https://www.perforce.com/)|2022.1 (2305383)|
+|[Mercurial](https://www.mercurial-scm.org/)|5.3.1|
+|[SVN](https://subversion.apache.org/)|1.13.0|
+|[Helm](https://helm.sh/)|v3.8.2+g6e3701e|
+|[Yarn](https://yarnpkg.com/)||
+|[Ant](https://ant.apache.org/)|1.10.7|
+|[Gradle](https://gradle.org/)|7.4.2|
+|[CMake](https://cmake.org/)|3.23.1|
+|[Apache Maven](https://maven.apache.org/)|3.6.3|
+|[PowerShell](https://docs.microsoft.com/en-us/powershell/)|7.2.2|
+|[R](https://www.r-project.org/)|3.6.3|
+|[Groovy](https://groovy-lang.org/)|4.0.1|
+|[RVM](https://rvm.io/)|1.29.12-next|
+|[rustup](https://rustup.rs/)|1.25.1|
+|[Cargo](https://doc.rust-lang.org/cargo/)|1.62.1|
+|[rustc](https://doc.rust-lang.org/rustc/what-is-rustc.html)|1.62.1|
+|[Go](https://golang.org/)|1.18.1|
+|[NVM](https://github.com/nvm-sh/nvm)|0.33.11|
+|[Node.js](https://nodejs.org/en/)|16.13|
+|[Python](https://www.python.org/)|3.8.10|
+|[Python 2](https://www.python.org/downloads/)|2.7.18|
+|[Python 3](https://www.python.org/downloads/)|3.9.13|
+|[pip3](https://pip.pypa.io/en/stable/)|22.2.2|
+|[pip](https://pip.pypa.io/en/stable/)|22.2.2|
+|[Ansible](https://www.ansible.com/)|2.9.6|
 
 </chunk> 
