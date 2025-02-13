@@ -5,31 +5,32 @@
 
 |Software|Version|
 |---|---|
-|[PowerShell 5](https://docs.microsoft.com/en-us/powershell/)|5.1.17763.6054|
-|[PowerShell 7](https://docs.microsoft.com/en-us/powershell/)|7.4.4|
-|[Unity Hub](https://unity.com/unity-hub)|3.8.0.0|
-|[Unity (default)](https://unity.com/)|2022.3.12.59104|
-|[Go](https://golang.org/)|1.22.5|
-|[msys2](https://www.msys2.org/)|20240727.0.0|
-|[Ruby 3.0](https://www.ruby-lang.org/en/)|3.0.6|
-|[Ruby 3.1](https://www.ruby-lang.org/en/)|3.1.4|
-|[Ruby 3.2](https://www.ruby-lang.org/en/)|3.2.2|
-|[Ruby (default)](https://www.ruby-lang.org/en/)|3.2.2|
+|[PowerShell 5](https://docs.microsoft.com/en-us/powershell/)|5.1.20348.2849|
+|[PowerShell 7](https://docs.microsoft.com/en-us/powershell/)|7.5.0|
+|[Unity 2021](https://unity.com/)|2021.3.43.38000|
+|[Unity 2022](https://unity.com/)|2022.3.46.39813|
+|[Unity Hub](https://unity.com/unity-hub)|3.11.1.0|
+|[Unity (default)](https://unity.com/)|2022.3.46.39813|
+|[Go](https://golang.org/)|1.24.0|
+|[Node.js](https://nodejs.org/en/)|v22.14.0|
+|[Ruby 3.1](https://www.ruby-lang.org/en/)|3.1.6|
+|[Ruby 3.2](https://www.ruby-lang.org/en/)|3.2.6|
+|[Ruby 3.3](https://www.ruby-lang.org/en/)|3.3.6|
+|[Ruby (default)](https://www.ruby-lang.org/en/)|3.3.6|
 |[AWS CLI](https://aws.amazon.com/cli/)|2.8.3|
 |[7-Zip](https://www.7-zip.org/)|22.1|
+|[msys2](https://www.msys2.org/)|20241208.0.0|
 |[JDK (default)](https://aws.amazon.com/corretto/)|17|
-|[.NET (default)](https://dotnet.microsoft.com/)|8.0.201|
-|[kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)|1.25.3|
-|[NUnit](https://nunit.org/)|3.18.1|
-|[WiX Toolset](https://wixtoolset.org/)|3.11.2|
+|[.NET (default)](https://dotnet.microsoft.com/)|8.0.406|
+|[kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)|1.0.0.0|
+|[NUnit](https://nunit.org/)|3.19.2|
+|[WiX Toolset](https://wixtoolset.org/)|3.14.1|
 |[Git](https://git-scm.com/)|2.45.1.1|
-|[Perforce](https://www.perforce.com/)|2022.1|
+|[Perforce](https://www.perforce.com/)|2024.2|
 |[Mercurial](https://www.mercurial-scm.org/)|1.0.0.1|
-|[SVN](https://subversion.apache.org/)|1.14.2.64502|
-|[RTools](https://cran.r-project.org/bin/windows/Rtools/)||
-|[Node.js](https://nodejs.org/en/)|v20.16.0|
+|[SVN](https://subversion.apache.org/)|1.14.5.21638|
 |[Yarn](https://yarnpkg.com/)|1.22.19|
-|[vcpkg](https://vcpkg.io/en/)|2024-07-10-d2dfc73769081bdd9b782d08d27794780b7a99b9|
+|[vcpkg](https://vcpkg.io/en/)|2025-01-29-a75ad067f470c19f030361064e32a2585392bee2|
 |[Docker](https://www.docker.com/)|20.10.9|
 |[Docker Compose](https://docs.docker.com/compose/)|1.29.2|
 |[Bazelisk](https://github.com/bazelbuild/bazelisk)|1.17.0|
